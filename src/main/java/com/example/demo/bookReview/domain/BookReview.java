@@ -48,8 +48,10 @@ public class BookReview extends AbstractAggregateRoot<BookReview> {
 
     private boolean flag;
 
-
-    public BookReview() {
-
+    public void delete(){
+        this.flag = true;
     }
+
+
+
 }

@@ -34,8 +34,20 @@ public class BookReviewService {
     }
 
 
+    @Transactional
     public BookReview findBookReview(String title) {
         BookReview bookReview = bookReviewRepository.findByTitle(title, false);
         return bookReview;
+    }
+
+    public void modifyBookReview(String title, String contents, String author, Long id ) {
+        BookReview bookReview = bookReviewRepository.findById(id, false);
+        bookReview.
+    }
+
+    @Transactional
+    public void deleteBookReview(Long id) {
+        BookReview bookReview = bookReviewRepository.findById(id, false);
+        bookReview.delete();
     }
 }

@@ -25,12 +25,21 @@ public class BookReviewController {
 
     @GetMapping()
     public BookReview findBookReview(@RequestParam String title){
-        bookReviewService.findBookReview(title);
+        return (bookReviewService.findBookReview(title));
+
+    }
+
+    @PostMapping
+    public void ModifiyBookReview(@RequestParam String title,
+                                  @RequestParam String contents,
+                                  @RequestParam String author,
+                                  @PathVariable Long id){
+        bookReviewService.modifyBookReview(title, contents, author, id);
 
     }
 
     @DeleteMapping()
-    public void deleteBookReview(){
-        bookReviewService.deleteBookReview();
+    public void deleteBookReview(@PathVariable Long id){
+        bookReviewService.deleteBookReview(id);
     }
 }
