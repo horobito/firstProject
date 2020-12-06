@@ -1,6 +1,7 @@
 package com.example.demo.bookReview.domain;
 
 
+import com.example.demo.log.service.LastBookReview;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -32,6 +33,15 @@ public class BookReview extends AbstractAggregateRoot<BookReview> {
         this.wrtTime = LocalDateTime.now();
     }
 
+    public BookReview(String title, String bookAuthor, String contents) {
+        this.title = title;
+        this.bookAuthor = bookAuthor;
+        this.contents = contents;
+        this.wrtTime = LocalDateTime.now();
+    }
+
+
+
     @Embedded
     private Writer writer;
 
@@ -48,10 +58,42 @@ public class BookReview extends AbstractAggregateRoot<BookReview> {
 
     private boolean flag;
 
+
+
     public void delete(){
         this.flag = true;
     }
 
 
+    public static BookReview createBookReview(String title,
+                                       String bookAuthor,
+                                       String contents,
+                                       Writer writer){
+        return new BookReview(title, bookAuthor, contents, writer);
+    }
 
+    public static BookReview createUpdatedBookReview(String title,
+                                                     String bookAuthor,
+                                                     String contents){
+        return new BookReview(title, bookAuthor, contents);
+    }
+
+
+    public void update(LastBookReview lastBookReview, BookReview updatedBookReview) {
+        this.title = updatedBookReview.getTitle();
+        this.contents = updatedBookReview.getContents();
+        this.bookAuthor = updatedBookReview.getBookAuthor();
+
+        Event event = Event.createEvent(
+                this,
+                lastBookReview,
+                updatedBookReview.getTitle(),
+                updatedBookReview.getContents(),
+                updatedBookReview.getBookAuthor()
+        );
+
+        registerEvent(event);
+
+
+    }
 }

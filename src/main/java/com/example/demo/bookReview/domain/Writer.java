@@ -26,4 +26,8 @@ public class Writer {
         this.writerName = writerName;
         this.writerNickName = writerNickName;
     }
+
+    public static Writer createWriter(Long id, String writerName,String writerNickName){
+        return new Writer(id, writerName, writerNickName);
+    }
 }

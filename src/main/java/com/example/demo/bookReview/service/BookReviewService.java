@@ -4,6 +4,7 @@ package com.example.demo.bookReview.service;
 import com.example.demo.bookReview.domain.BookReview;
 import com.example.demo.bookReview.domain.BookReviewRepository;
 import com.example.demo.bookReview.domain.Writer;
+import com.example.demo.log.service.LastBookReview;
 import com.example.demo.user.domain.User;
 import com.example.demo.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,8 @@ public class BookReviewService {
                                String contents,
                                Long id) {
         User user = userRepository.findUserById(id);
-        Writer writer = new Writer(user.getId(), user.getUserId(), user.getNickName());
-        BookReview bookReview = new BookReview(title, bookAuthor, contents, writer);
+        Writer writer = Writer.createWriter(user.getId(), user.getUserId(), user.getNickName());
+        BookReview bookReview = BookReview.createBookReview(title, bookAuthor, contents, writer);
         bookReviewRepository.save(bookReview);
 
     }
@@ -40,9 +41,13 @@ public class BookReviewService {
         return bookReview;
     }
 
+    @Transactional
     public void modifyBookReview(String title, String contents, String author, Long id ) {
         BookReview bookReview = bookReviewRepository.findById(id, false);
-        bookReview.
+        LastBookReview lastBookReview = LastBookReview.createLastBookReview(bookReview);
+        BookReview updatedBookReview = BookReview.createUpdatedBookReview(title, contents, author);
+        bookReview.update(lastBookReview, updatedBookReview);
+
     }
 
     @Transactional
