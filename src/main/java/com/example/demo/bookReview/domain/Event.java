@@ -35,11 +35,11 @@ public class Event {
 
     }
 
-    public static Event createEvent(BookReview updatedPost,
+    public static Event createEvent(BookReview updatedBookReview,
                                     LastBookReview lastBookReview,
                                     String title,
                                     String contents,
                                     String author){
-        return new Event(updatedPost, lastBookReview, title, contents, author);
+        return new Event(updatedBookReview, lastBookReview, title, contents, author);
     }
 }
